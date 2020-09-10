@@ -200,26 +200,28 @@
             }
 
             function seektimeupdate() {
-                var nt = audio.currentTime * (100 / audio.duration);
-                seekslider.value = nt;
-                var curmins = Math.floor(audio.currentTime / 60);
-                var cursecs = Math.floor(audio.currentTime - curmins * 60);
-                var durmins = Math.floor(audio.duration / 60);
-                var dursecs = Math.floor(audio.duration - durmins * 60);
-                if (cursecs < 10) {
-                    cursecs = "0" + cursecs;
+                for (var i = 0; i < audioplayers.length; i++) {
+                    var nt = audioplayers[i].currentTime * (100 / audioplayers[i].duration);
+                    seekslider.value = nt;
+                    var curmins = Math.floor(audioplayers[i].currentTime / 60);
+                    var cursecs = Math.floor(audioplayers[i].currentTime - curmins * 60);
+                    var durmins = Math.floor(audioplayers[i].duration / 60);
+                    var dursecs = Math.floor(audioplayers[i].duration - durmins * 60);
+                    if (cursecs < 10) {
+                        cursecs = "0" + cursecs;
+                    }
+                    if (dursecs < 10) {
+                        dursecs = "0" + dursecs;
+                    }
+                    if (curmins < 10) {
+                        curmins = "0" + curmins;
+                    }
+                    if (durmins < 10) {
+                        durmins = "0" + durmins;
+                    }
+                    curtimetext.innerHTML = curmins + ":" + cursecs;
+                    durtimetext.innerHTML = durmins + ":" + dursecs;
                 }
-                if (dursecs < 10) {
-                    dursecs = "0" + dursecs;
-                }
-                if (curmins < 10) {
-                    curmins = "0" + curmins;
-                }
-                if (durmins < 10) {
-                    durmins = "0" + durmins;
-                }
-                curtimetext.innerHTML = curmins + ":" + cursecs;
-                durtimetext.innerHTML = durmins + ":" + dursecs;
             }
         }
         window.addEventListener("load", initAudioPlayer);
