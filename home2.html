@@ -100,9 +100,9 @@
         var playbtn, mutebtn, seekslider, volumeslider, seeking = false
             , seekto, curtimetext, durtimetext;
         var audioplayers = [];
+        var volumesliders = [];
 
         function initAudioPlayer() {
-            //
             //                        audioplayers.forEach(createPlayer);  
             //            function createPlayer(src, loop) {
             //                audio = new Audio();
@@ -113,16 +113,23 @@
             audio = new Audio();
             audio.src = "sax_pizzicato.mp3";
             audio.loop = true;
+            audio.name = "Violin pizzicato";
             //
-            var audio2 = new Audio();
+            audio2 = new Audio();
             audio2.src = "sax_chords.mp3";
             audio2.loop = true;
-            audioplayers.push(audio, audio2);
+            audio2.name = "Rhode melody";
             //
-            //            var tempPlayers = []; // for (var index = 0; index < audioplayers.length; index++) { // if (audioplayers[index].loop=="true" ) { // tempPlayers.push(audioplayers); // } // }
-            //            audioplayers = tempPlayers;
+            audio3 = new Audio();
+            audio3.src = "sax_bass.mp3";
+            audio3.loop = true;
+            audio3.name = "Guitar Bass";
             //
-            // Set object references
+            audioplayers.push(audio, audio2, audio3);
+            for (var i = 0; i < audioplayers.length; i++) {
+                document.getElementById(audioplayers[i].name).innerHTML = audioplayers[i].name;
+            }
+            //
             playbtn = document.getElementById("playpausebtn");
             mutebtn = document.getElementById("mutebtn");
             seekslider = document.getElementById("seekslider");
@@ -149,7 +156,6 @@
             // Functions
             function playPause() {
                 if (audio.paused) {
-                    audio.play();
                     for (var i = 0; i < audioplayers.length; i++) {
                         audioplayers[i].play();
                     }
@@ -165,17 +171,22 @@
 
             function mute() {
                 if (audio.muted) {
-                    audio.muted = false;
+                    for (var i = 0; i < audioplayers.length; i++) {
+                        audioplayers[i].muted = false;
+                    }
                     //                    mutebtn.style.background = "url(images/speaker.png) no-repeat";
                 }
                 else {
-                    audio.muted = true;
+                    for (var i = 0; i < audioplayers.length; i++) {
+                        audioplayers[i].muted = true;
+                    }
                     //                    mutebtn.style.background = "url(images/speaker_muted.png) no-repeat";
                 }
             }
 
             function seek(event) {
                 if (seeking) {
+                    //                    seekslider.value = event.clientX - seekslider.offsetLeft; // seekto = audioplayers[0].duration * (seekslider.value / 100); // audioplayers[0].currentTime = seekto;
                     seekslider.value = event.clientX - seekslider.offsetLeft;
                     seekto = audio.duration * (seekslider.value / 100);
                     audio.currentTime = seekto;
@@ -183,7 +194,10 @@
             }
 
             function setvolume() {
-                audio.volume = volumeslider.value / 100;
+                for (var i = 0; i < audioplayers.length; i++) {
+                    audioplayers[i].volume = volumeslider.value / 100;
+                }
+                //                audio.volume = volumeslider.value / 100;
             }
 
             function seektimeupdate() {
@@ -222,7 +236,15 @@
     <div> <b>Track</b>
         <input id="seekslider" type="range" min="0" max="100" value="0" step="1">
         <div id="timebox"> <span id="curtimetext">00:00</span> / <span id="durtimetext">00:00</span> </div>
-        <input id="volumeslider" type="range" min="0" max="100" value="100" step="1"> </div>
+        <br>
+        <p id="Violin pizzicato">Violin pizzicato</p>
+        <input id="volumeslider1" type="range" min="0" max="100" value="100" step="1">
+        <br>
+        <p id="Rhode melody">Rhode melody</p>
+        <input id="volumeslider2" type="range" min="0" max="100" value="100" step="1">
+        <br>
+        <p id="Guitar Bass">Guitar Bass</p>
+        <input id="volumeslider3" type="range" min="0" max="100" value="100" step="1"> </div>
     <br> </body>
 
 </html>
