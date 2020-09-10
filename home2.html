@@ -97,19 +97,12 @@
         }
     </style>
     <script>
-        var playbtn, mutebtn, seekslider, volumeslider, seeking = false
+        var playbtn, mutebtn, seekslider, seeking = false
             , seekto, curtimetext, durtimetext;
         var audioplayers = [];
         var volumesliders = [];
 
         function initAudioPlayer() {
-            //                        audioplayers.forEach(createPlayer);  
-            //            function createPlayer(src, loop) {
-            //                audio = new Audio();
-            //                audio.src = src;
-            //                audio.loop = loop;
-            //                audio.play();
-            //            }
             audio = new Audio();
             audio.src = "sax_pizzicato.mp3";
             audio.loop = true;
@@ -133,7 +126,9 @@
             playbtn = document.getElementById("playpausebtn");
             mutebtn = document.getElementById("mutebtn");
             seekslider = document.getElementById("seekslider");
-            volumeslider = document.getElementById("volumeslider");
+            for (var i = 0; i < audioplayers.length; i++) {
+                volumesliders[i] = document.getElementById("volumeslider" + i);
+            }
             curtimetext = document.getElementById("curtimetext");
             durtimetext = document.getElementById("durtimetext");
             // Add Event Handling
@@ -149,7 +144,9 @@
             seekslider.addEventListener("mouseup", function () {
                 seeking = false;
             });
-            volumeslider.addEventListener("mousemove", setvolume);
+            for (var i = 0; i < audioplayers.length; i++) {
+                volumesliders[i].addEventListener("mousemove", setvolume);
+            }
             audio.addEventListener("timeupdate", function () {
                 seektimeupdate();
             });
@@ -186,16 +183,18 @@
 
             function seek(event) {
                 if (seeking) {
-                    //                    seekslider.value = event.clientX - seekslider.offsetLeft; // seekto = audioplayers[0].duration * (seekslider.value / 100); // audioplayers[0].currentTime = seekto;
-                    seekslider.value = event.clientX - seekslider.offsetLeft;
-                    seekto = audio.duration * (seekslider.value / 100);
-                    audio.currentTime = seekto;
+                    for (var i = 0; i < audioplayers.length; i++) {
+                        seekslider.value = event.clientX - seekslider.offsetLeft;
+                        seekto = audioplayers[i].duration * (seekslider.value / 100);
+                        audioplayers[i].currentTime = seekto;
+                    }
+                    //                    seekslider.value = event.clientX - seekslider.offsetLeft; // seekto = audio.duration * (seekslider.value / 100); // audio.currentTime = seekto;
                 }
             }
 
             function setvolume() {
                 for (var i = 0; i < audioplayers.length; i++) {
-                    audioplayers[i].volume = volumeslider.value / 100;
+                    audioplayers[i].volume = volumesliders[i].value / 100;
                 }
                 //                audio.volume = volumeslider.value / 100;
             }
@@ -238,13 +237,13 @@
         <div id="timebox"> <span id="curtimetext">00:00</span> / <span id="durtimetext">00:00</span> </div>
         <br>
         <p id="Violin pizzicato">Violin pizzicato</p>
-        <input id="volumeslider1" type="range" min="0" max="100" value="100" step="1">
+        <input id="volumeslider0" type="range" min="0" max="100" value="100" step="1">
         <br>
         <p id="Rhode melody">Rhode melody</p>
-        <input id="volumeslider2" type="range" min="0" max="100" value="100" step="1">
+        <input id="volumeslider1" type="range" min="0" max="100" value="100" step="1">
         <br>
         <p id="Guitar Bass">Guitar Bass</p>
-        <input id="volumeslider3" type="range" min="0" max="100" value="100" step="1"> </div>
+        <input id="volumeslider2" type="range" min="0" max="100" value="100" step="1"> </div>
     <br> </body>
 
 </html>
