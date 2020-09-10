@@ -1,0 +1,90 @@
+<style>
+    /* VOLUME BAR CSS */
+    /* volume bar */
+    
+    .volume {
+        position: relative;
+        cursor: pointer;
+        width: 100%;
+        height: 20px;
+        float: left;
+        margin-top: 10px;
+        margin-right: 10px;
+        background-color: #000;
+    }
+    
+    .volumeBar {
+        display: block;
+        height: 20px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #888;
+        z-index: 10;
+        width: 90%;
+    }
+    
+    .volume3 {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 0 50px 100px;
+        border-color: transparent transparent #007bff transparent;
+        line-height: 0px;
+        border-color: #000000 #000000 #007bff #000000;
+        filter: progid: DXImageTransform.Microsoft.Chroma(color='#000000');
+    }
+</style>
+<!--<audio controls="" style="margin-top:10px;"> </audio>-->
+<audio controls>
+    <source preload="auto" src="sax.mp3" type="audio/mpeg"> </audio>
+<div class="volume" title="Set volume"> <span class="volumeBar"></span></div>
+<script>
+    var audio = document.getElementsByTagName('audio')[0];
+    $('.muted').click(function () {
+        audio.muted = !audio.muted;
+        return false;
+    });
+    //VOLUME BAR
+    //volume bar event
+    var volumeDrag = false;
+    $('.volume').on('mousedown', function (e) {
+        volumeDrag = true;
+        audio.muted = false;
+        $('.sound').removeClass('muted');
+        updateVolume(e.pageX);
+    });
+    $(document).on('mouseup', function (e) {
+        if (volumeDrag) {
+            volumeDrag = false;
+            updateVolume(e.pageX);
+        }
+    });
+    $(document).on('mousemove', function (e) {
+        if (volumeDrag) {
+            updateVolume(e.pageX);
+        }
+    });
+    var updateVolume = function (x, vol) {
+        var volume = $('.volume');
+        var percentage;
+        //if only volume have specificed
+        //then direct update volume
+        if (vol) {
+            percentage = vol * 100;
+        }
+        else {
+            var position = x - volume.offset().left;
+            percentage = 100 * position / volume.width();
+        }
+        if (percentage & gt; 100) {
+            percentage = 100;
+        }
+        if (percentage 0.5) {
+            $('.sound').removeClass('muted').addClass('sound2');
+        }
+        else {
+            $('.sound').removeClass('muted').removeClass('sound2');
+        }
+    };
+</script>
