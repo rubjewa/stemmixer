@@ -106,22 +106,26 @@
             //            video = document.getElementById("video1");
             audio = new Audio();
             audio.src = "sax_pizzicato.mp3";
+            audio.preload = "auto";
             audio.loop = true;
             audio.name = "Violin pizzicato";
             //
             audio2 = new Audio();
             audio2.src = "sax_chords.mp3";
+            audio2.preload = "auto";
             audio2.loop = true;
             audio2.name = "Rhode melody";
             //
             audio3 = new Audio();
             audio3.src = "sax_bass.mp3";
+            audio3.preload = "auto";
             audio3.loop = true;
             audio3.name = "Guitar Bass";
             //
             audioplayers.push(audio, audio2, audio3);
             //Retrieve Audio sources by name
             for (var i = 0; i < audioplayers.length; i++) {
+                audioplayers[i].preloa
                 document.getElementById(audioplayers[i].name).innerHTML = audioplayers[i].name;
             }
             //
@@ -236,7 +240,7 @@
 </head>
 
 <body>
-    <video id="video1" width="320" height="240" controls>
+    <video id="video1" preload="auto" width="320" height="240" controls>
         <source src="testclip2.mp4" type=video/mp4> </video>
     <div>
         <button id="playpausebtn"></button>
@@ -251,10 +255,10 @@
         <input id="volumeslider0" type="range" min="0" max="100" value="30" step="1">
         <br>
         <p id="Rhode melody">Rhode melody</p>
-        <input id="volumeslider1" type="range" min="0" max="100" value="45" step="1">
+        <input id="volumeslider1" type="range" min="0" max="100" value="40" step="1">
         <br>
         <p id="Guitar Bass">Guitar Bass</p>
-        <input id="volumeslider2" type="range" min="0" max="100" value="65" step="1"> </div>
+        <input id="volumeslider2" type="range" min="0" max="100" value="40" step="1"> </div>
     <br> </body>
 
 </html>
