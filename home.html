@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
     <meta charset="UTF-8">
     <style>
         body {
@@ -103,7 +104,7 @@
         var volumesliders = [];
 
         function initAudioPlayer() {
-            //            video = document.getElementById("video1");
+            video = document.getElementById("video1");
             audio = new Audio();
             audio.src = "sax_pizzicato.mp3";
             audio.preload = "auto";
@@ -164,14 +165,14 @@
                     for (var i = 0; i < audioplayers.length; i++) {
                         audioplayers[i].play();
                     }
-                    //                    video.play();
+                    video.play();
                     //                    playbtn.style.background = "url(images/pause.png) no-repeat"; 
                 }
                 else {
                     for (var i = 0; i < audioplayers.length; i++) {
                         audioplayers[i].pause();
                     }
-                    //                    video.pause();
+                    video.pause();
                     //                    playbtn.style.background = "url(images/play.png) no-repeat";
                 }
             }
@@ -198,8 +199,7 @@
                         seekto = audioplayers[i].duration * (seekslider.value / 100);
                         audioplayers[i].currentTime = seekto;
                     }
-                    //                    video.currentTime = seekto;
-                    //                    seekslider.value = event.clientX - seekslider.offsetLeft; // seekto = audio.duration * (seekslider.value / 100); // audio.currentTime = seekto;
+                    video.currentTime = seekto;
                 }
             }
 
