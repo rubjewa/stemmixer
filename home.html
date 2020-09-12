@@ -208,9 +208,13 @@
                 for (var i = 0; i < audioplayers.length; i++) {
                     audioplayers[i].volume = volumesliders[i].value / 100;
                 }
-                //                audio.volume = volumeslider.value / 100;
+
+                // for (var i = 0; i < audioplayers.length; i++) {
+                //     audioplayers[i].volume = volumesliders[i].value / 100;
+                // }
             }
 
+            //Audiosource time
             function seektimeupdate() {
                 for (var i = 0; i < audioplayers.length; i++) {
                     var nt = audioplayers[i].currentTime * (100 / audioplayers[i].duration);
