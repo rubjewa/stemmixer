@@ -133,28 +133,28 @@
             audio2.preload = "auto";
             audio2.loop = true;
             audio2.name = "Rhode melody";
-            audio2.muted = true;
+            audio2.muted = false;
             //Rhode Mastered
             audio2M = new Audio();
-            audio2M.src = "sax_chords.mp3";
+            audio2M.src = "sax_chordsM.mp3";
             audio2M.preload = "auto";
             audio2M.loop = true;
             audio2M.name = "Rhode melodyM";
-            audio2M.muted = true;
+            audio2M.muted = false;
             //Guitar
             audio3 = new Audio();
             audio3.src = "sax_bass.mp3";
             audio3.preload = "auto";
             audio3.loop = true;
             audio3.name = "Guitar Bass";
-            audio3.muted = true;
+            audio3.muted = false;
             //Guitar Mastered
             audio3M = new Audio();
-            audio3M.src = "sax_bass.mp3";
+            audio3M.src = "sax_bassM.mp3";
             audio3M.preload = "auto";
             audio3M.loop = true;
             audio3M.name = "Guitar BassM";
-            audio3M.muted = true;
+            audio3M.muted = false;
 
             //
             audioplayers.push([audio,audioM],[audio2,audio2M],[audio3,audio3M]);
@@ -165,7 +165,6 @@
                     // console.log(audioplayers[x][0].name);
                     audioplayers[x][y].preload;
                     document.getElementById(audioplayers[x][0].name).innerHTML = audioplayers[x][0].name;
-                    // audioplayers[x][0].volume = tempRawVolume;
                 }
             }
 
@@ -211,10 +210,6 @@
                             audioplayers[x][y].play();
                         }
                     }
-
-                    // for (var i = 0; i < audioplayers.length; i++) {
-                    //     audioplayers[i].play();
-                    // }
                     video.play();
                     //                    playbtn.style.background = "url(images/pause.png) no-repeat"; 
                 }
@@ -225,10 +220,6 @@
                             audioplayers[x][y].pause();
                         }
                     }
-
-                    // for (var i = 0; i < audioplayers.length; i++) {
-                    //     audioplayers[i].pause();
-                    // }
                     video.pause();
                     //                    playbtn.style.background = "url(images/play.png) no-repeat";
                 }
@@ -249,6 +240,7 @@
                 }
             }
 
+            //Seek/sync all 6 audio sources
             function seek(event) {
                 if (seeking) {
                     for (var i = 0; i < audioplayers.length; i++) {
@@ -260,18 +252,22 @@
                 }
             }
 
-            function setvolume(y) {
+            function setvolume() {
                 for (var x = 0; x < audioplayers.length; x++) {
                     var player = audioplayers[x];
                     for(var y = 0; y < player.length; y++){
-                        // console.log(tempvolumes[0][0]);
+                        console.log(audioplayers[2][1].volume);
 
                         //Setting raw audio volume
-                        audioplayers[0][1].volume = tempvolumes[0][0];
+                        audioplayers[0][1].volume = tempvolumes[0][0]; //Pizzicato
+                        audioplayers[1][1].volume = tempvolumes[1][0]; //Rhode
+                        audioplayers[2][1].volume = tempvolumes[2][0]; //Bass
                         // console.log("tempRawVolume: " + audioplayers[0][y].volume);
 
                         //Setting mastered audio volume
-                        audioplayers[0][0].volume = tempvolumes[0][1];
+                        audioplayers[0][0].volume = tempvolumes[0][1]; //Pizzicato
+                        audioplayers[1][0].volume = tempvolumes[1][1]; //Rhode
+                        audioplayers[2][0].volume = tempvolumes[2][1]; //Bass
                         // console.log("tempMasteredvolume: " + audioplayers[1][y].volume);
 
                         // audioplayers[0][y].volume = volumesliders[y].value / 100;
@@ -279,17 +275,20 @@
                         // console.log(audioplayers[0][1].name + ": Volume:" + audioplayers[0][1].volume); //Mastered
 
                         //Setting two temp volumes
-                        tempvolumes[0][0] = volumesliders[y].value / 100; // Raw
-                        tempvolumes[0][1] = (100 - volumesliders[y].value) / 100; //Mastered
+                        tempvolumes[0][1] = (100 - volumesliders[0].value) / 100; //Raw Pizzicato
+                        tempvolumes[0][0] = volumesliders[0].value / 100; // Mastered Pizzicato
+
+                        tempvolumes[1][1] = (100 - volumesliders[1].value) / 100; //Raw Rhode
+                        tempvolumes[1][0] = volumesliders[1].value / 100; // Mastered Rhode
+
+                        tempvolumes[2][1] = (100 - volumesliders[2].value) / 100; //Raw Bass
+                        tempvolumes[2][0] = volumesliders[2].value / 100; // Mastered Bass
+
 
                         // tempRawVolume = volumesliders[y].value / 100; // vol 1
                         // tempMasteredVolume = (100 - volumesliders[y].value) / 100; // 0
                     }
                 }
-
-                // for (var i = 0; i < audioplayers.length; i++) {
-                //     audioplayers[i].volume = volumesliders[i].value / 100;
-                // }
             }
 
             //Audiosource time
