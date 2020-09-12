@@ -102,11 +102,12 @@
             , seekto, curtimetext, durtimetext, video;
 
         //Declaring two temp audio volumes
-        var tempRawVolume = 1;
-        var tempMasteredVolume = 0;
+        // var tempRawVolume = 1;
+        // var tempMasteredVolume = 0;
 
         let audioplayers = [];
         var volumesliders = [];
+        var tempvolumes = [[1,0],[1,0],[1,0]];
 
         function initAudioPlayer() {
             video = document.getElementById("video1");
@@ -263,21 +264,26 @@
                 for (var x = 0; x < audioplayers.length; x++) {
                     var player = audioplayers[x];
                     for(var y = 0; y < player.length; y++){
+                        // console.log(tempvolumes[0][0]);
+
                         //Setting raw audio volume
-                        audioplayers[0][1].volume = tempRawVolume;
+                        audioplayers[0][1].volume = tempvolumes[0][0];
                         // console.log("tempRawVolume: " + audioplayers[0][y].volume);
 
                         //Setting mastered audio volume
-                        audioplayers[0][0].volume = tempMasteredVolume;
+                        audioplayers[0][0].volume = tempvolumes[0][1];
                         // console.log("tempMasteredvolume: " + audioplayers[1][y].volume);
 
                         // audioplayers[0][y].volume = volumesliders[y].value / 100;
-                        console.log(audioplayers[0][0].name + ": Volume:" + audioplayers[0][0].volume); //Raw
-                        console.log(audioplayers[0][1].name + ": Volume:" + audioplayers[0][1].volume); //Mastered
+                        // console.log(audioplayers[0][0].name + ": Volume:" + audioplayers[0][0].volume); //Raw
+                        // console.log(audioplayers[0][1].name + ": Volume:" + audioplayers[0][1].volume); //Mastered
 
                         //Setting two temp volumes
-                        tempRawVolume = volumesliders[y].value / 100; // vol 1
-                        tempMasteredVolume = (100 - volumesliders[y].value) / 100; // 0
+                        tempvolumes[0][0] = volumesliders[y].value / 100; // Raw
+                        tempvolumes[0][1] = (100 - volumesliders[y].value) / 100; //Mastered
+
+                        // tempRawVolume = volumesliders[y].value / 100; // vol 1
+                        // tempMasteredVolume = (100 - volumesliders[y].value) / 100; // 0
                     }
                 }
 
