@@ -10,7 +10,48 @@
   <component name="ComposerSettings">
     <execution />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1hPOKAeErzVWmYG61vhX92xy5uI" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="02b1060b-e7f6-45c7-89cc-e21f5afa155e" name="Default Changelist" comment="" />
+      <created>1599909194710</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1599909194710</updated>
+      <workItem from="1599909195838" duration="8470000" />
+    </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="192" y="348" key="SettingsEditor" timestamp="1599909178450">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="192" y="348" key="SettingsEditor/0.0.2560.1400@0.0.2560.1400" timestamp="1599909178450" />
+    <state x="323" y="334" key="run.anything.popup" timestamp="1599912902162">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="323" y="334" key="run.anything.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1599912902162" />
+    <state x="354" y="320" width="672" height="678" key="search.everywhere.popup" timestamp="1599908504388">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="354" y="320" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1599908504388" />
   </component>
 </project>

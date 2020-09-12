@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <!--  Fake favicon bad request  -->
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
@@ -9,37 +8,37 @@
         body {
             background: #666;
         }
-        
+
         button {
             border: none;
             cursor: pointer;
             outline: none;
         }
-        
+
         input {
             outline: none;
         }
-        
+
         button#playpausebtn {
             /*            background: url(images/pause.png) no-repeat;*/
             width: 12px;
             height: 14px;
         }
-        
+
         button#mutebtn {
             /*            background: url(images/speaker.png) no-repeat;*/
             width: 5px;
             height: 14px;
         }
-        
+
         input#seekslider {
             width: 100px;
         }
-        
+
         input#volumeslider {
             width: 70px;
         }
-        
+
         div#timebox {
             display: inline-block;
             width: 80px;
@@ -49,7 +48,7 @@
             font-family: Arial, Helvetica, sans-serif;
             font-size: 11px;
         }
-        
+
         input[type='range'] {
             -webkit-appearance: none !important;
             margin: 0px;
@@ -58,20 +57,20 @@
             height: 13px;
             border-bottom: #333 1px solid;
         }
-        
+
         input[type='range']::-ms-fill-lower {
             background: #000;
         }
-        
+
         input[type='range']::-ms-fill-upper {
             background: #000;
         }
-        
+
         input[type='range']::-moz-range-track {
             border: none;
             background: #000;
         }
-        
+
         input[type='range']::-webkit-slider-thumb {
             -webkit-appearance: none !important;
             background: radial-gradient(#FFF, #333);
@@ -80,7 +79,7 @@
             border-radius: 100%;
             cursor: pointer;
         }
-        
+
         input[type='range']::-moz-range-thumb {
             background: radial-gradient(#FFF, #333);
             height: 11px;
@@ -88,7 +87,7 @@
             border-radius: 100%;
             cursor: pointer;
         }
-        
+
         input[type='range']::-ms-thumb {
             -webkit-appearance: none !important;
             background: radial-gradient(#FFF, #333);
@@ -101,35 +100,74 @@
     <script>
         var playbtn, mutebtn, seekslider, seeking = false
             , seekto, curtimetext, durtimetext, video;
-        var audioplayers = [];
+
+        //Declaring two temp audio volumes
+        var tempRawVolume = 1;
+        var tempMasteredVolume = 0;
+
+        let audioplayers = [];
         var volumesliders = [];
 
         function initAudioPlayer() {
             video = document.getElementById("video1");
+            //
+            //Create audio objects
+            //Violin
             audio = new Audio();
             audio.src = "sax_pizzicato.mp3";
             audio.preload = "auto";
             audio.loop = true;
             audio.name = "Violin pizzicato";
-            //
+            audio.muted = false;
+            //Violin Mastered
+            audioM = new Audio();
+            audioM.src = "sax_pizzicatoM.mp3";
+            audioM.preload = "auto";
+            audioM.loop = true;
+            audioM.name = "Violin pizzicatoM";
+            audioM.muted = false;
+            //Rhode
             audio2 = new Audio();
             audio2.src = "sax_chords.mp3";
             audio2.preload = "auto";
             audio2.loop = true;
             audio2.name = "Rhode melody";
-            //
+            audio2.muted = true;
+            //Rhode Mastered
+            audio2M = new Audio();
+            audio2M.src = "sax_chords.mp3";
+            audio2M.preload = "auto";
+            audio2M.loop = true;
+            audio2M.name = "Rhode melodyM";
+            audio2M.muted = true;
+            //Guitar
             audio3 = new Audio();
             audio3.src = "sax_bass.mp3";
             audio3.preload = "auto";
             audio3.loop = true;
             audio3.name = "Guitar Bass";
+            audio3.muted = true;
+            //Guitar Mastered
+            audio3M = new Audio();
+            audio3M.src = "sax_bass.mp3";
+            audio3M.preload = "auto";
+            audio3M.loop = true;
+            audio3M.name = "Guitar BassM";
+            audio3M.muted = true;
+
             //
-            audioplayers.push(audio, audio2, audio3);
+            audioplayers.push([audio,audioM],[audio2,audio2M],[audio3,audio3M]);
             //Retrieve Audio sources by name
-            for (var i = 0; i < audioplayers.length; i++) {
-                audioplayers[i].preload;
-                document.getElementById(audioplayers[i].name).innerHTML = audioplayers[i].name;
+            for (var x = 0; x < audioplayers.length; x++) {
+                var player = audioplayers[x];
+                for(var y = 0; y < player.length; y++){
+                    // console.log(audioplayers[x][0].name);
+                    audioplayers[x][y].preload;
+                    document.getElementById(audioplayers[x][0].name).innerHTML = audioplayers[x][0].name;
+                    // audioplayers[x][0].volume = tempRawVolume;
+                }
             }
+
             //
             playbtn = document.getElementById("playpausebtn");
             mutebtn = document.getElementById("mutebtn");
@@ -153,26 +191,43 @@
             seekslider.addEventListener("mouseup", function () {
                 seeking = false;
             });
+
             //Set individual volumes for individual stems
-            for (var i = 0; i < audioplayers.length; i++) {
+            for (i = 0; i < audioplayers.length; i++) {
                 volumesliders[i].addEventListener("mousemove", setvolume);
             }
+
             audio.addEventListener("timeupdate", function () {
                 seektimeupdate();
             });
             // Functions
             function playPause() {
                 if (audio.paused) {
-                    for (var i = 0; i < audioplayers.length; i++) {
-                        audioplayers[i].play();
+                    for (var x = 0; x < audioplayers.length; x++) {
+                        var player = audioplayers[x];
+                        for(var y = 0; y < player.length; y++){
+                            setvolume(y);
+                            audioplayers[x][y].play();
+                        }
                     }
+
+                    // for (var i = 0; i < audioplayers.length; i++) {
+                    //     audioplayers[i].play();
+                    // }
                     video.play();
                     //                    playbtn.style.background = "url(images/pause.png) no-repeat"; 
                 }
                 else {
-                    for (var i = 0; i < audioplayers.length; i++) {
-                        audioplayers[i].pause();
+                    for (var x = 0; x < audioplayers.length; x++) {
+                        var player = audioplayers[x];
+                        for(var y = 0; y < player.length; y++){
+                            audioplayers[x][y].pause();
+                        }
                     }
+
+                    // for (var i = 0; i < audioplayers.length; i++) {
+                    //     audioplayers[i].pause();
+                    // }
                     video.pause();
                     //                    playbtn.style.background = "url(images/play.png) no-repeat";
                 }
@@ -204,9 +259,26 @@
                 }
             }
 
-            function setvolume() {
-                for (var i = 0; i < audioplayers.length; i++) {
-                    audioplayers[i].volume = volumesliders[i].value / 100;
+            function setvolume(y) {
+                for (var x = 0; x < audioplayers.length; x++) {
+                    var player = audioplayers[x];
+                    for(var y = 0; y < player.length; y++){
+                        //Setting raw audio volume
+                        audioplayers[0][1].volume = tempRawVolume;
+                        // console.log("tempRawVolume: " + audioplayers[0][y].volume);
+
+                        //Setting mastered audio volume
+                        audioplayers[0][0].volume = tempMasteredVolume;
+                        // console.log("tempMasteredvolume: " + audioplayers[1][y].volume);
+
+                        // audioplayers[0][y].volume = volumesliders[y].value / 100;
+                        console.log(audioplayers[0][0].name + ": Volume:" + audioplayers[0][0].volume); //Raw
+                        console.log(audioplayers[0][1].name + ": Volume:" + audioplayers[0][1].volume); //Mastered
+
+                        //Setting two temp volumes
+                        tempRawVolume = volumesliders[y].value / 100; // vol 1
+                        tempMasteredVolume = (100 - volumesliders[y].value) / 100; // 0
+                    }
                 }
 
                 // for (var i = 0; i < audioplayers.length; i++) {
@@ -243,27 +315,26 @@
         window.addEventListener("load", initAudioPlayer);
     </script>
 </head>
-
 <body>
-    <video id="video1" preload="auto" width="320" height="240">
-        <source src="testclip2.mp4" type=video/mp4> </video>
-    <div>
-        <button id="playpausebtn"></button>
-        <br>
-        <button id="mutebtn"></button>
-        <br> </div>
-    <div> <b>Track</b>
-        <input id="seekslider" type="range" min="0" max="100" value="0" step="1">
-        <div id="timebox"> <span id="curtimetext">00:00</span> / <span id="durtimetext">00:00</span> </div>
-        <br>
-        <p id="Violin pizzicato">Violin pizzicato</p>
-        <input id="volumeslider0" type="range" min="0" max="100" value="30" step="1">
-        <br>
-        <p id="Rhode melody">Rhode melody</p>
-        <input id="volumeslider1" type="range" min="0" max="100" value="40" step="1">
-        <br>
-        <p id="Guitar Bass">Guitar Bass</p>
-        <input id="volumeslider2" type="range" min="0" max="100" value="40" step="1"> </div>
-    <br> </body>
+<video id="video1" preload="auto" width="320" height="240">
+    <source src="testclip2.mp4" type=video/mp4> </video>
+<div>
+    <button id="playpausebtn"></button>
+    <br>
+    <button id="mutebtn"></button>
+    <br> </div>
+<div> <b>Track</b>
+    <input id="seekslider" type="range" min="0" max="100" value="0" step="1">
+    <div id="timebox"> <span id="curtimetext">00:00</span> / <span id="durtimetext">00:00</span> </div>
+    <br>
+    <p id="Violin pizzicato">Violin pizzicato</p>
+    <input id="volumeslider0" type="range" min="0" max="100" value="0" step="1">
+    <br>
+    <p id="Rhode melody">Rhode melody</p>
+    <input id="volumeslider1" type="range" min="0" max="100" value="0" step="1">
+    <br>
+    <p id="Guitar Bass">Guitar Bass</p>
+    <input id="volumeslider2" type="range" min="0" max="100" value="0" step="1"> </div>
+<br> </body>
 
 </html>
