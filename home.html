@@ -39,6 +39,11 @@
             width: 70px;
         }
 
+        /*Added total volume balance*/
+        input#balancelider {
+            width: 70px;
+        }
+
         div#timebox {
             display: inline-block;
             width: 80px;
@@ -172,6 +177,8 @@
             playbtn = document.getElementById("playpausebtn");
             mutebtn = document.getElementById("mutebtn");
             seekslider = document.getElementById("seekslider");
+            //Added total volume slider
+            balanceslider = document.getElementById("balanceslider");
             //Dedicate volumeslider vars to elements
             for (var i = 0; i < audioplayers.length; i++) {
                 volumesliders[i] = document.getElementById("volumeslider" + i);
@@ -191,6 +198,9 @@
             seekslider.addEventListener("mouseup", function () {
                 seeking = false;
             });
+
+
+            balanceslider.addEventListener("mousemove", setvolume);
 
             //Set individual volumes for individual stems
             for (i = 0; i < audioplayers.length; i++) {
@@ -256,18 +266,18 @@
                 for (var x = 0; x < audioplayers.length; x++) {
                     var player = audioplayers[x];
                     for(var y = 0; y < player.length; y++){
-                        console.log(audioplayers[2][1].volume);
+                        // console.log(audioplayers[2][1].volume);
 
                         //Setting raw audio volume
-                        audioplayers[0][1].volume = tempvolumes[0][0]; //Pizzicato
-                        audioplayers[1][1].volume = tempvolumes[1][0]; //Rhode
-                        audioplayers[2][1].volume = tempvolumes[2][0]; //Bass
+                        audioplayers[0][1].volume = tempvolumes[0][0] * (balanceslider.value / 100); //Pizzicato
+                        audioplayers[1][1].volume = tempvolumes[1][0] * (balanceslider.value / 100); //Rhode
+                        audioplayers[2][1].volume = tempvolumes[2][0] * (balanceslider.value / 100); //Bass
                         // console.log("tempRawVolume: " + audioplayers[0][y].volume);
 
                         //Setting mastered audio volume
-                        audioplayers[0][0].volume = tempvolumes[0][1]; //Pizzicato
-                        audioplayers[1][0].volume = tempvolumes[1][1]; //Rhode
-                        audioplayers[2][0].volume = tempvolumes[2][1]; //Bass
+                        audioplayers[0][0].volume = tempvolumes[0][1] * (balanceslider.value / 100); //Pizzicato
+                        audioplayers[1][0].volume = tempvolumes[1][1] * (balanceslider.value / 100); //Rhode
+                        audioplayers[2][0].volume = tempvolumes[2][1] * (balanceslider.value / 100); //Bass
                         // console.log("tempMasteredvolume: " + audioplayers[1][y].volume);
 
                         // audioplayers[0][y].volume = volumesliders[y].value / 100;
@@ -331,6 +341,7 @@
 <div> <b>Track</b>
     <input id="seekslider" type="range" min="0" max="100" value="0" step="1">
     <div id="timebox"> <span id="curtimetext">00:00</span> / <span id="durtimetext">00:00</span> </div>
+    <input id="balanceslider" type="range" min="0" max="100" value="50" step="1">
     <br>
     <p id="Violin pizzicato">Violin pizzicato</p>
     <input id="volumeslider0" type="range" min="0" max="100" value="0" step="1">
