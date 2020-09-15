@@ -6,13 +6,15 @@
     <meta charset="UTF-8">
     <style>
         body {
-            background: #666;
+            background: #ffffff;
         }
 
         button {
             border: none;
             cursor: pointer;
             outline: none;
+            width: 20px;
+            height: 20px;
         }
 
         input {
@@ -35,73 +37,75 @@
             width: 100px;
         }
 
-        input#volumeslider {
-            width: 70px;
+        #audioSliders>input {
+            width: 150px;
         }
 
         /*Added total volume balance*/
-        input#balancelider {
+        input#balanceslider {
             width: 70px;
         }
 
         div#timebox {
             display: inline-block;
             width: 80px;
-            background: #000;
+            background: #00000024;
             text-align: center;
             color: #09F;
             font-family: Arial, Helvetica, sans-serif;
             font-size: 11px;
         }
 
-        input[type='range'] {
-            -webkit-appearance: none !important;
-            margin: 0px;
-            padding: 0px;
-            background: #000;
-            height: 13px;
-            border-bottom: #333 1px solid;
-        }
+        /*input[type='range'] {*/
+        /*    -webkit-appearance: none !important;*/
+        /*    margin: 0px;*/
+        /*    padding: 0px;*/
+        /*    background: #00000024;*/
+        /*    !*height: 13px;*!*/
+        /*    !*border-bottom: #333 1px solid;*!*/
+        /*}*/
 
-        input[type='range']::-ms-fill-lower {
-            background: #000;
-        }
+        /*input[type='range']::-ms-fill-lower {*/
+        /*    background: #000;*/
+        /*}*/
 
-        input[type='range']::-ms-fill-upper {
-            background: #000;
-        }
+        /*input[type='range']::-ms-fill-upper {*/
+        /*    background: #000;*/
+        /*}*/
 
-        input[type='range']::-moz-range-track {
-            border: none;
-            background: #000;
-        }
+        /*input[type='range']::-moz-range-track {*/
+        /*    border: none;*/
+        /*    background: #000;*/
+        /*}*/
 
-        input[type='range']::-webkit-slider-thumb {
-            -webkit-appearance: none !important;
-            background: radial-gradient(#FFF, #333);
-            height: 11px;
-            width: 11px;
-            border-radius: 100%;
-            cursor: pointer;
-        }
+        /*!* Slider button *!*/
+        /*input[type='range']::-webkit-slider-thumb {*/
+        /*    -webkit-appearance: none !important;*/
+        /*    background: #4446af;*/
+        /*    height: 15px;*/
+        /*    width: 15px;*/
+        /*    border-radius: 100%;*/
+        /*    cursor: pointer;*/
+        /*}*/
 
-        input[type='range']::-moz-range-thumb {
-            background: radial-gradient(#FFF, #333);
-            height: 11px;
-            width: 11px;
-            border-radius: 100%;
-            cursor: pointer;
-        }
+        /*input[type='range']::-moz-range-thumb {*/
+        /*    background: radial-gradient(#FFF, #333);*/
+        /*    height: 15px;*/
+        /*    width: 15px;*/
+        /*    border-radius: 100%;*/
+        /*    cursor: pointer;*/
+        /*}*/
 
-        input[type='range']::-ms-thumb {
-            -webkit-appearance: none !important;
-            background: radial-gradient(#FFF, #333);
-            height: 11px;
-            width: 11px;
-            border-radius: 100%;
-            cursor: pointer;
-        }
+        /*input[type='range']::-ms-thumb {*/
+        /*    -webkit-appearance: none !important;*/
+        /*    background: radial-gradient(#FFF, #333);*/
+        /*    height: 15px;*/
+        /*    width: 15px;*/
+        /*    border-radius: 100%;*/
+        /*    cursor: pointer;*/
+        /*}*/
     </style>
+
     <script>
         var playbtn, mutebtn, seekslider, seeking = false
             , seekto, curtimetext, durtimetext, video;
@@ -187,7 +191,7 @@
             durtimetext = document.getElementById("durtimetext");
             // Add Event Handling
             playbtn.addEventListener("click", playPause);
-            mutebtn.addEventListener("click", mute);
+            // mutebtn.addEventListener("click", mute); no use
             seekslider.addEventListener("mousedown", function (event) {
                 seeking = true;
                 seek(event);
@@ -235,28 +239,31 @@
                 }
             }
 
-            function mute() {
-                if (audio.muted) {
-                    for (var i = 0; i < audioplayers.length; i++) {
-                        audioplayers[i].muted = false;
-                    }
-                    //                    mutebtn.style.background = "url(images/speaker.png) no-repeat";
-                }
-                else {
-                    for (var i = 0; i < audioplayers.length; i++) {
-                        audioplayers[i].muted = true;
-                    }
-                    //                    mutebtn.style.background = "url(images/speaker_muted.png) no-repeat";
-                }
-            }
+            // function mute() {
+            //     if (audio.muted) {
+            //         for (var i = 0; i < audioplayers.length; i++) {
+            //             audioplayers[i].muted = false;
+            //         }
+            //         //                    mutebtn.style.background = "url(images/speaker.png) no-repeat";
+            //     }
+            //     else {
+            //         for (var i = 0; i < audioplayers.length; i++) {
+            //             audioplayers[i].muted = true;
+            //         }
+            //         //                    mutebtn.style.background = "url(images/speaker_muted.png) no-repeat";
+            //     }
+            // }
 
             //Seek/sync all 6 audio sources
             function seek(event) {
                 if (seeking) {
-                    for (var i = 0; i < audioplayers.length; i++) {
-                        seekslider.value = event.clientX - seekslider.offsetLeft;
-                        seekto = audioplayers[i].duration * (seekslider.value / 100);
-                        audioplayers[i].currentTime = seekto;
+                    for (var x = 0; x < audioplayers.length; x++) {
+                        var player = audioplayers[x];
+                        for (var y = 0; y < player.length; y++) {
+                            seekslider.value = event.clientX - seekslider.offsetLeft;
+                            seekto = audioplayers[x][y].duration * (seekslider.value / 100);
+                            audioplayers[x][y].currentTime = seekto;
+                        }
                     }
                     video.currentTime = seekto;
                 }
@@ -266,7 +273,6 @@
                 for (var x = 0; x < audioplayers.length; x++) {
                     var player = audioplayers[x];
                     for(var y = 0; y < player.length; y++){
-                        // console.log(audioplayers[2][1].volume);
 
                         //Setting raw audio volume
                         audioplayers[0][1].volume = tempvolumes[0][0] * (balanceslider.value / 100); //Pizzicato
@@ -301,29 +307,33 @@
                 }
             }
 
+            //TODO : Seek all audio synced
             //Audiosource time
             function seektimeupdate() {
-                for (var i = 0; i < audioplayers.length; i++) {
-                    var nt = audioplayers[i].currentTime * (100 / audioplayers[i].duration);
-                    seekslider.value = nt;
-                    var curmins = Math.floor(audioplayers[i].currentTime / 60);
-                    var cursecs = Math.floor(audioplayers[i].currentTime - curmins * 60);
-                    var durmins = Math.floor(audioplayers[i].duration / 60);
-                    var dursecs = Math.floor(audioplayers[i].duration - durmins * 60);
-                    if (cursecs < 10) {
-                        cursecs = "0" + cursecs;
+                for (var x = 0; x < audioplayers.length; x++) {
+                    var player = audioplayers[x];
+                    for(var y = 0; y < player.length; y++) {
+                        var nt = audioplayers[x][y].currentTime * (100 / audioplayers[x][y].duration);
+                        seekslider.value = nt;
+                        var curmins = Math.floor(audioplayers[x][y].currentTime / 60);
+                        var cursecs = Math.floor(audioplayers[x][y].currentTime - curmins * 60);
+                        var durmins = Math.floor(audioplayers[x][y].duration / 60);
+                        var dursecs = Math.floor(audioplayers[x][y].duration - durmins * 60);
+                        if (cursecs < 10) {
+                            cursecs = "0" + cursecs;
+                        }
+                        if (dursecs < 10) {
+                            dursecs = "0" + dursecs;
+                        }
+                        if (curmins < 10) {
+                            curmins = "0" + curmins;
+                        }
+                        if (durmins < 10) {
+                            durmins = "0" + durmins;
+                        }
+                        curtimetext.innerHTML = curmins + ":" + cursecs;
+                        durtimetext.innerHTML = durmins + ":" + dursecs;
                     }
-                    if (dursecs < 10) {
-                        dursecs = "0" + dursecs;
-                    }
-                    if (curmins < 10) {
-                        curmins = "0" + curmins;
-                    }
-                    if (durmins < 10) {
-                        durmins = "0" + durmins;
-                    }
-                    curtimetext.innerHTML = curmins + ":" + cursecs;
-                    durtimetext.innerHTML = durmins + ":" + dursecs;
                 }
             }
         }
@@ -336,14 +346,16 @@
 <div>
     <button id="playpausebtn"></button>
     <br>
-    <button id="mutebtn"></button>
+<!--    <button id="mutebtn"></button> no use-->
     <br> </div>
-<div> <b>Track</b>
+<b>Track</b>
     <input id="seekslider" type="range" min="0" max="100" value="0" step="1">
     <div id="timebox"> <span id="curtimetext">00:00</span> / <span id="durtimetext">00:00</span> </div>
     <input id="balanceslider" type="range" min="0" max="100" value="50" step="1">
     <br>
-    <p id="Violin pizzicato">Violin pizzicato</p>
+
+<div id="audioSliders">
+<p id="Violin pizzicato">Violin pizzicato</p>
     <input id="volumeslider0" type="range" min="0" max="100" value="0" step="1">
     <br>
     <p id="Rhode melody">Rhode melody</p>
@@ -351,6 +363,14 @@
     <br>
     <p id="Guitar Bass">Guitar Bass</p>
     <input id="volumeslider2" type="range" min="0" max="100" value="0" step="1"> </div>
-<br> </body>
+<br>
+</div>
+
+<div>
+
+
+</div>
+
+</body>
 
 </html>
