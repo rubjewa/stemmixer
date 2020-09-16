@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
 <head>
     <!--  Fake favicon bad request  -->
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
@@ -7,6 +7,7 @@
     <style>
         body {
             background: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         button {
@@ -21,39 +22,60 @@
             outline: none;
         }
 
+        #controls{
+            width: 315px;
+            height: auto;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 5px;
+        }
+
         button#playpausebtn {
-            /*            background: url(images/pause.png) no-repeat;*/
-            width: 12px;
-            height: 14px;
+            background: url(play.png) no-repeat;
+            width: 30px;
+            height: 30px;
+            padding-right: 30px;
         }
 
         button#mutebtn {
-            /*            background: url(images/speaker.png) no-repeat;*/
+            /* background: url(images/speaker.png) no-repeat; */
             width: 5px;
             height: 14px;
         }
 
         input#seekslider {
             width: 100px;
+            display: inline-block;
+            vertical-align: super;
         }
 
         #audioSliders>input {
             width: 150px;
         }
 
+        #audioSliders>p {
+            font-size: 15px;
+        }
+
         /*Added total volume balance*/
         input#balanceslider {
             width: 70px;
+            display: inline-block;
+            vertical-align: super;
         }
 
-        div#timebox {
+        #timebox{
             display: inline-block;
-            width: 80px;
-            background: #00000024;
+            /* background: #00000024; */
             text-align: center;
             color: #09F;
             font-family: Arial, Helvetica, sans-serif;
-            font-size: 11px;
+            font-size: 13px;
+            vertical-align: super;
+        }
+
+        video{
+            background-color: #0000000d;
         }
 
         /*input[type='range'] {*/
@@ -110,10 +132,6 @@
         var playbtn, mutebtn, seekslider, seeking = false
             , seekto, curtimetext, durtimetext, video;
 
-        //Declaring two temp audio volumes
-        // var tempRawVolume = 1;
-        // var tempMasteredVolume = 0;
-
         let audioplayers = [];
         var volumesliders = [];
         var tempvolumes = [[1,0],[1,0],[1,0]];
@@ -127,7 +145,7 @@
             audio.src = "sax_pizzicato.mp3";
             audio.preload = "auto";
             audio.loop = true;
-            audio.name = "Violin pizzicato";
+            audio.name = "Viool Plucks";
             audio.muted = false;
             //Violin Mastered
             audioM = new Audio();
@@ -141,7 +159,7 @@
             audio2.src = "sax_chords.mp3";
             audio2.preload = "auto";
             audio2.loop = true;
-            audio2.name = "Rhode melody";
+            audio2.name = "Rhode Akkoorden";
             audio2.muted = false;
             //Rhode Mastered
             audio2M = new Audio();
@@ -155,7 +173,7 @@
             audio3.src = "sax_bass.mp3";
             audio3.preload = "auto";
             audio3.loop = true;
-            audio3.name = "Guitar Bass";
+            audio3.name = "Bass Guitaar";
             audio3.muted = false;
             //Guitar Mastered
             audio3M = new Audio();
@@ -225,7 +243,7 @@
                         }
                     }
                     video.play();
-                    //                    playbtn.style.background = "url(images/pause.png) no-repeat"; 
+                    playbtn.style.background = "url(pause.png) no-repeat";
                 }
                 else {
                     for (var x = 0; x < audioplayers.length; x++) {
@@ -235,7 +253,7 @@
                         }
                     }
                     video.pause();
-                    //                    playbtn.style.background = "url(images/play.png) no-repeat";
+                    playbtn.style.background = "url(play.png) no-repeat";
                 }
             }
 
@@ -274,6 +292,7 @@
                     var player = audioplayers[x];
                     for(var y = 0; y < player.length; y++){
 
+                        //TODO : fix this ugly stuff
                         //Setting raw audio volume
                         audioplayers[0][1].volume = tempvolumes[0][0] * (balanceslider.value / 100); //Pizzicato
                         audioplayers[1][1].volume = tempvolumes[1][0] * (balanceslider.value / 100); //Rhode
@@ -339,36 +358,29 @@
         }
         window.addEventListener("load", initAudioPlayer);
     </script>
+    <title></title>
 </head>
 <body>
 <video id="video1" preload="auto" width="320" height="240">
     <source src="testclip2.mp4" type=video/mp4> </video>
-<div>
-    <button id="playpausebtn"></button>
-    <br>
-<!--    <button id="mutebtn"></button> no use-->
-    <br> </div>
-<b>Track</b>
-    <input id="seekslider" type="range" min="0" max="100" value="0" step="1">
+<div id="controls">
+    <button id="playpausebtn"></button><input id="seekslider" type="range" min="0" max="100" value="0" step="1">
     <div id="timebox"> <span id="curtimetext">00:00</span> / <span id="durtimetext">00:00</span> </div>
     <input id="balanceslider" type="range" min="0" max="100" value="50" step="1">
-    <br>
+</div>
+
+<br>
 
 <div id="audioSliders">
-<p id="Violin pizzicato">Violin pizzicato</p>
-    <input id="volumeslider0" type="range" min="0" max="100" value="0" step="1">
+    <p id="Viool Plucks"></p><input id="volumeslider0" type="range" min="0" max="100" value="0" step="1">
     <br>
-    <p id="Rhode melody">Rhode melody</p>
-    <input id="volumeslider1" type="range" min="0" max="100" value="0" step="1">
+    <p id="Rhode Akkoorden"></p><input id="volumeslider1" type="range" min="0" max="100" value="0" step="1">
     <br>
-    <p id="Guitar Bass">Guitar Bass</p>
-    <input id="volumeslider2" type="range" min="0" max="100" value="0" step="1"> </div>
+    <p id="Bass Guitaar"></p><input id="volumeslider2" type="range" min="0" max="100" value="0" step="1"> </div>
 <br>
 </div>
 
 <div>
-
-
 </div>
 
 </body>
