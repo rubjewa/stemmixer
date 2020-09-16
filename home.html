@@ -23,11 +23,12 @@
         }
 
         #controls{
-            width: 315px;
+            /*width: 315px;*/
             height: auto;
             padding-top: 5px;
             padding-bottom: 5px;
             padding-left: 5px;
+            text-align: center;
         }
 
         button#playpausebtn {
@@ -76,6 +77,8 @@
 
         video{
             background-color: #0000000d;
+            width: 100%;
+            height: auto;
         }
 
         /*input[type='range'] {*/
@@ -361,24 +364,22 @@
     <title></title>
 </head>
 <body>
-<video id="video1" preload="auto" width="320" height="240">
-    <source src="testclip2.mp4" type=video/mp4> </video>
+<video id="video1" preload="auto" muted width="720" height="480">
+    <source src="testvideo.mp4" type=video/mp4>
+</video>
 <div id="controls">
     <button id="playpausebtn"></button><input id="seekslider" type="range" min="0" max="100" value="0" step="1">
     <div id="timebox"> <span id="curtimetext">00:00</span> / <span id="durtimetext">00:00</span> </div>
     <input id="balanceslider" type="range" min="0" max="100" value="50" step="1">
-</div>
-
-<br>
-
-<div id="audioSliders">
-    <p id="Viool Plucks"></p><input id="volumeslider0" type="range" min="0" max="100" value="0" step="1">
     <br>
-    <p id="Rhode Akkoorden"></p><input id="volumeslider1" type="range" min="0" max="100" value="0" step="1">
+    <div id="audioSliders">
+        <p id="Viool Plucks"></p><input id="volumeslider0" type="range" min="0" max="100" value="0" step="1">
+        <br>
+        <p id="Rhode Akkoorden"></p><input id="volumeslider1" type="range" min="0" max="100" value="0" step="1">
+        <br>
+        <p id="Bass Guitaar"></p><input id="volumeslider2" type="range" min="0" max="100" value="0" step="1"> </div>
     <br>
-    <p id="Bass Guitaar"></p><input id="volumeslider2" type="range" min="0" max="100" value="0" step="1"> </div>
-<br>
-</div>
+</div></div>
 
 <div>
 </div>
